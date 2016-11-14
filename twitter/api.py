@@ -3491,6 +3491,31 @@ class Api(object):
 
         return [Status.NewFromJsonDict(x) for x in data]
 
+    def CreateCollectionEntry(self, collection_id, tweet_id):
+        """Add a new entry to the specified collection.
+
+        Args:
+          collection_id (int, required):
+            The numerical id of the collection.
+          tweet_id (int, required):
+            The tweet ID.
+
+        Returns:
+          response data
+        """
+        parameters = {
+            "id": collection_id,
+            "tweet_id": tweet_id
+        }
+
+        url = '%s/collections/entries/add.json' % self.base_url
+
+        resp = self._RequestUrl(url, 'POST', data=parameters)
+        data = self._ParseAndCheckTwitter(resp.content.decode('utf-8'))
+
+        return data
+
+
     @staticmethod
     def _IDList(list_id, slug, owner_id, owner_screen_name):
         parameters = {}
