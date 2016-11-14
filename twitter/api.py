@@ -3515,6 +3515,32 @@ class Api(object):
 
         return data
 
+    def CreateCollection(self, name, description, related_url=None, timeline_order=None):
+        """Add a new entry to the specified collection.
+
+        Args:
+          collection_id (int, required):
+            The numerical id of the collection.
+          tweet_id (int, required):
+            The tweet ID.
+
+        Returns:
+          response data
+        """
+        parameters = {
+            "name": name,
+            "description": description,
+        }
+
+        if related_url:
+            parameters["url"] = related_url
+
+        url = '%s/collections/create.json' % self.base_url
+
+        resp = self._RequestUrl(url, 'POST', data=parameters)
+        data = self._ParseAndCheckTwitter(resp.content.decode('utf-8'))
+
+        return data
 
     @staticmethod
     def _IDList(list_id, slug, owner_id, owner_screen_name):
